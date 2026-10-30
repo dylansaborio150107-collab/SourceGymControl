@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SourceGymControl — Gestión integral de gimnasios</title>
+  <meta name="description" content="SourceGymControl: clientes, membresías, accesos, pagos, rutinas personalizadas, progreso físico, reportes y auditoría en un solo panel." />
+  <meta name="theme-color" content="#020617" />
+  <link rel="apple-touch-icon" href="assets/logo.jpg" />
+  <meta property="og:title" content="SourceGymControl" />
+  <meta property="og:description" content="Sistema integral para la gestión y administración de gimnasios." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Tema aplicado antes del primer pintado (evita destellos) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("sgc_theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        if (t === "light") document.documentElement.classList.add("light");
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/app/assets/logo.jpg" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // La paleta apunta a variables CSS: al cambiar de tema, todo el marcado se adapta.
+    const _s = (n) => `rgb(var(--s${n}) / <alpha-value>)`;
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { 50: _s(50), 100: _s(100), 200: _s(200), 300: _s(300), 400: _s(400), 500: _s(500), 600: _s(600), 700: _s(700), 800: _s(800), 900: _s(900), 950: _s(950) },
+            brand: {
+              300: "rgb(var(--b300) / <alpha-value>)",
+              400: "rgb(var(--b400) / <alpha-value>)",
+              500: "rgb(var(--b500) / <alpha-value>)",
+              600: "rgb(var(--b600) / <alpha-value>)",
+              700: "rgb(var(--b700) / <alpha-value>)",
+              900: "rgb(var(--b900) / <alpha-value>)",
+            },
+          },
+          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"] },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+
+  <!-- ==================== LOGIN ==================== -->
+  <div id="login" class="min-h-screen lg:grid lg:grid-cols-[42%_58%]">
+
+    <!-- Panel izquierdo: marca -->
+    <div class="login-split relative flex min-h-[360px] flex-col justify-between overflow-hidden bg-slate-950 px-8 py-10 lg:min-h-screen lg:px-12">
+      <img src="assets/gym-bg.jpg" alt="Interior del gimnasio SourceGym" class="absolute inset-0 h-full w-full object-cover opacity-30" />
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/80 to-brand-900/50"></div>
+
+      <div class="relative"></div>
+
+      <div class="relative flex flex-col items-center text-center animate-fadeUp">
+        <img src="assets/logo-white.png" alt="Logo SourceGymControl" class="h-auto w-56 max-w-full drop-shadow-[0_10px_30px_rgba(0,0,0,.55)] sm:w-64" />
+        <p class="mt-6 max-w-xs text-sm leading-relaxed text-slate-400">
+          Sistema integral para la gestión<br />y administración de gimnasios
+        </p>
+      </div>
+
+      <div class="relative mt-10 grid grid-cols-3 divide-x divide-slate-700/60 text-center">
+        <div class="px-2">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="mx-auto h-6 w-6 text-slate-300"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 1a3 3 0 1 0-3-3 3 3 0 0 0 3 3Zm0 2c-2.7 0-6 1.3-6 4v2h7v-2c0-1.2.5-2.3 1.4-3.2A10 10 0 0 0 8 14Zm8 0c-3 0-8 1.5-8 4.5V21h16v-2.5c0-3-5-4.5-8-4.5Z"/></svg>
+          <p class="mt-2 text-xs leading-tight text-slate-400">Gestión de<br />clientes</p>
+        </div>
+        <div class="px-2">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="mx-auto h-6 w-6 text-slate-300"><path d="M4 9H2v6h2v-2h2v-2H4Zm16 0v2h-2v2h2v2h2V9ZM7 6h3v12H7Zm7 0h3v12h-3Zm-4 5h4v2h-4Z"/></svg>
+          <p class="mt-2 text-xs leading-tight text-slate-400">Control de<br />asistencias</p>
+        </div>
+        <div class="px-2">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="mx-auto h-6 w-6 text-slate-300"><path d="M3 17h2v4H3Zm4-6h2v10H7Zm4-4h2v14h-2Zm4 8h2v6h-2Zm4-12h2v18h-2Z"/></svg>
+          <p class="mt-2 text-xs leading-tight text-slate-400">Reportes y<br />estadísticas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel derecho: formulario -->
+    <div class="relative flex min-h-screen flex-col justify-center bg-slate-950 px-5 py-12 sm:px-10 lg:px-16">
+      <button id="login-theme" type="button" class="icon-btn absolute right-5 top-5" aria-label="Cambiar tema claro u oscuro" title="Cambiar tema"></button>
+
+      <div class="mx-auto w-full max-w-lg animate-fadeUp rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-2xl sm:p-10">
+        <h2 class="text-center text-3xl font-bold text-slate-50 sm:text-4xl">¡<span class="text-brand-500">Bienvenido</span> de nuevo!</h2>
+        <p class="mt-2 text-center text-sm text-slate-400">Inicia sesión para continuar</p>
+
+        <div class="my-6 flex items-center gap-4">
+          <span class="h-px flex-1 bg-slate-700"></span>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-brand-500"><path d="M4 9H2v6h2v-2h2v-2H4Zm16 0v2h-2v2h2v2h2V9ZM7 6h3v12H7Zm7 0h3v12h-3Zm-4 5h4v2h-4Z"/></svg>
+          <span class="h-px flex-1 bg-slate-700"></span>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div id="login-error" class="mb-4 hidden rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-400" role="alert"></div>
+
+          <label for="usuario" class="mb-2 block text-sm font-medium text-slate-200">Usuario o correo electrónico</label>
+          <div class="relative mb-5">
+            <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5Z"/></svg>
+            </span>
+            <input id="usuario" name="usuario" type="text" autocomplete="username" required placeholder="Ingresa tu usuario o correo"
+              class="w-full rounded-xl border border-slate-700 bg-slate-900/80 py-3.5 pl-12 pr-4 text-slate-100 placeholder-slate-500 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30" />
+          </div>
+
+          <label for="password" class="mb-2 block text-sm font-medium text-slate-200">Contraseña</label>
+          <div class="relative mb-4">
+            <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9Zm-8-2a3 3 0 0 1 6 0v2H9Zm4 9.7V19h-2v-2.3a2 2 0 1 1 2 0Z"/></svg>
+            </span>
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Ingresa tu contraseña"
+              class="w-full rounded-xl border border-slate-700 bg-slate-900/80 py-3.5 pl-12 pr-12 text-slate-100 placeholder-slate-500 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30" />
+            <button type="button" id="toggle-pass" aria-label="Mostrar u ocultar contraseña"
+              class="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-500 transition hover:text-slate-200">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5Zm0-8a3 3 0 1 0 3 3 3 3 0 0 0-3-3Z"/></svg>
+            </button>
+          </div>
+
+          <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <label class="flex cursor-pointer items-center gap-2 text-sm text-slate-300">
+              <input id="recordar" type="checkbox" checked class="h-5 w-5 rounded border-slate-600 bg-slate-800 text-brand-600 focus:ring-brand-500" />
+              Recordarme
+            </label>
+            <a href="#" id="forgot" class="text-sm text-brand-400 hover:text-brand-300 hover:underline">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="flex w-full items-center justify-center gap-3 rounded-xl bg-brand-600 py-4 text-base font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-700">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M10 17v-2H4V9h6V7l5 5-5 5Zm2-14h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7v-2h7V5h-7Z"/></svg>
+            Iniciar sesión
+          </button>
+        </form>
+
+        <div class="my-6 flex items-center gap-4">
+          <span class="h-px flex-1 bg-slate-800"></span>
+          <span class="text-xs text-slate-500">o continúa con</span>
+          <span class="h-px flex-1 bg-slate-800"></span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" data-social="Google" class="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900/60 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-500">
+            <svg viewBox="0 0 24 24" class="h-5 w-5"><path fill="#4285F4" d="M23 12.3c0-.9-.1-1.5-.2-2.2H12v4h6.3c-.1 1-.8 2.6-2.3 3.6l3.5 2.7c2.1-1.9 3.5-4.8 3.5-8.1Z"/><path fill="#34A853" d="M12 23c3 0 5.6-1 7.5-2.7l-3.5-2.7c-1 .7-2.3 1.1-4 1.1a7 7 0 0 1-6.6-4.8l-3.7 2.8A11 11 0 0 0 12 23Z"/><path fill="#FBBC05" d="M5.4 13.9a6.7 6.7 0 0 1 0-4.2L1.7 6.9a11 11 0 0 0 0 9.8Z"/><path fill="#EA4335" d="M12 4.8c2.1 0 3.6.9 4.4 1.7l3.2-3.1A11 11 0 0 0 1.7 6.9l3.7 2.8A7 7 0 0 1 12 4.8Z"/></svg>
+            Google
+          </button>
+          <button type="button" data-social="Apple" class="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900/60 py-3 text-sm font-medium text-slate-200 transition hover:border-slate-500">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M16.4 12.8c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.5-.2-2.8.8-3.5.8s-1.9-.8-3.1-.8c-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3.1.7 2.1-1.1 2.8-2.2c.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8ZM14 5.9c.6-.8 1.1-1.9 1-3-1 0-2.2.6-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1 0 2.2-.6 2.9-1.4Z"/></svg>
+            Apple
+          </button>
+        </div>
+      </div>
+
+      <footer class="mt-10 text-center text-xs text-slate-500">
+        <p>&copy; <span id="year">2026</span> SourceGym Control. Todos los derechos reservados.</p>
+        <p class="mt-1">Versión 2.1.0</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ==================== APP ==================== -->
+  <div id="app" style="display:none"></div>
+
+  <div id="modal-root"></div>
+  <div id="toasts" class="pointer-events-none fixed bottom-5 right-5 z-[60] flex w-[calc(100vw-2.5rem)] max-w-sm flex-col gap-2"></div>
+
+  <script src="js/schema.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
